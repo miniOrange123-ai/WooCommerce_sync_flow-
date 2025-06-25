@@ -408,6 +408,81 @@
             line-height: 1.6;
         }
 
+        .step-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        .step-content ul li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+            color: #495057;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .step-content ul li:last-child {
+            border-bottom: none;
+        }
+
+        .step-content ul li:before {
+            content: "→";
+            color: #007bff;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .step-content .function-name {
+            background: #e3f2fd;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #1976d2;
+            display: inline-block;
+            margin: 5px 0;
+        }
+
+        .step-content .hook-name {
+            background: #fff3e0;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #f57c00;
+            display: inline-block;
+            margin: 3px 0;
+        }
+
+        .step-content .section-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 15px 0 8px 0;
+            font-size: 1.1rem;
+        }
+
+        .step-content .process-detail {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .step-content .process-detail h5 {
+            color: #007bff;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .step-content .process-detail p {
+            margin: 5px 0;
+            color: #495057;
+            font-size: 0.95rem;
+        }
+
         .step-animation {
             display: flex;
             align-items: center;
@@ -702,7 +777,7 @@
         <div id="preview" class="tab-content">
             <div class="content-header">
                 <h2>Interactive Sync Flow Preview</h2>
-                <p>Experience the sync process step-by-step with interactive simulation</p>
+                <p>Experience the sync process step-by-step with detailed function calls and hooks</p>
             </div>
 
             <!-- Preview Sub-tabs -->
@@ -714,26 +789,45 @@
             <!-- Old Sync Preview -->
             <div id="old-preview" class="preview-content active">
                 <div class="preview-header">
-                    <h3>Old Sync Flow Simulation</h3>
-                    <p>Experience the connection-centric approach step by step</p>
+                    <h3>Old Sync Flow - Step by Step Details</h3>
+                    <p>Connection-centric approach with detailed function calls and hooks</p>
                 </div>
 
                 <div class="sync-simulation">
                     <div class="step-container" id="old-step-1">
                         <div class="step-header">
                             <span class="step-number">1</span>
-                            <h4>Start Connection Sync</h4>
+                            <h4>User Initiates Sync</h4>
                         </div>
                         <div class="step-content">
-                            <p>Click the button below to start the sync process for a single connection.</p>
-                            <button class="sync-button" onclick="startOldSync()">Start Sync</button>
+                            <div class="step-animation">
+                                <div class="process-box">User</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">Click "Start Sync"</div>
+                            </div>
+                            <p><strong>Action:</strong> User clicks "Start Sync" button for a single connection</p>
+                            <div class="section-title">Function:</div>
+                            <div class="function-name">mo_wcps_dropdown_action_redirect('connection_name', 'play')</div>
+                            <div class="section-title">What it does:</div>
+                            <ul>
+                                <li>Triggers the sync initiation process for a specific connection</li>
+                                <li>Validates user permissions and connection status</li>
+                                <li>Redirects to the sync action handler</li>
+                            </ul>
+                            <div class="process-detail">
+                                <h5>Process Details:</h5>
+                                <p>This is the entry point where the user initiates the sync process. The system validates that the connection exists and the user has proper permissions to start the sync operation.</p>
+                            </div>
+                            <div class="section-title">Hooks:</div>
+                            <p>None</p>
+                            <button class="sync-button" onclick="nextOldStep(2)">Continue</button>
                         </div>
                     </div>
 
                     <div class="step-container hidden" id="old-step-2">
                         <div class="step-header">
                             <span class="step-number">2</span>
-                            <h4>UI Handler Processes Request</h4>
+                            <h4>UI Handler Processing</h4>
                         </div>
                         <div class="step-content">
                             <div class="step-animation">
@@ -741,7 +835,21 @@
                                 <div class="arrow">→</div>
                                 <div class="process-box">handle_action('mowcpsstartsync')</div>
                             </div>
-                            <p>UI Handler checks if sync is running and updates status to 'started'</p>
+                            <div class="section-title">Function:</div>
+                            <div class="function-name">handle_action('mowcpsstartsync')</div>
+                            <div class="section-title">What it does:</div>
+                            <ul>
+                                <li>Checks if sync is already running for this connection</li>
+                                <li>Updates sync status to 'started' in the database</li>
+                                <li>Calls enqueue_product_sync() to setup the sync process</li>
+                                <li>Redirects user to the analytics page to monitor progress</li>
+                            </ul>
+                            <div class="process-detail">
+                                <h5>Process Details:</h5>
+                                <p>This function acts as the main controller for sync initiation. It prevents multiple syncs from running simultaneously for the same connection and ensures proper state management. The function also handles user feedback by redirecting to the analytics page where users can monitor the sync progress.</p>
+                            </div>
+                            <div class="section-title">Hooks:</div>
+                            <p>None</p>
                             <button class="sync-button" onclick="nextOldStep(3)">Continue</button>
                         </div>
                     </div>
@@ -757,7 +865,22 @@
                                 <div class="arrow">→</div>
                                 <div class="process-box">enqueue_product_sync()</div>
                             </div>
-                            <p>Creates Sync_Analytics, schedules cron job, sets status 'Sync in queue'</p>
+                            <div class="section-title">Function:</div>
+                            <div class="function-name">enqueue_product_sync(connection_name)</div>
+                            <div class="section-title">What it does:</div>
+                            <ul>
+                                <li>Creates a new Sync_Analytics object to track sync progress</li>
+                                <li>Sets up analytics with 'complete_connection' type for full sync</li>
+                                <li>Creates Sync_Manager object to handle the actual sync process</li>
+                                <li>Schedules WordPress cron job: mo_wcps_product_sync_cron</li>
+                                <li>Updates connection status to 'Sync in queue'</li>
+                            </ul>
+                            <div class="process-detail">
+                                <h5>Process Details:</h5>
+                                <p>This function prepares the sync infrastructure by creating analytics tracking and scheduling the actual sync job. The Sync_Analytics object will track metrics like products processed, time taken, and success/failure rates. The cron job is scheduled to run in 2 seconds to allow the current request to complete.</p>
+                            </div>
+                            <div class="section-title">Hooks:</div>
+                            <p>None</p>
                             <button class="sync-button" onclick="nextOldStep(4)">Continue</button>
                         </div>
                     </div>
@@ -773,7 +896,21 @@
                                 <div class="arrow">→</div>
                                 <div class="process-box">wp_schedule_single_event()</div>
                             </div>
-                            <p>Schedules cron job to run in 2 seconds</p>
+                            <div class="section-title">Function:</div>
+                            <div class="function-name">wp_schedule_single_event()</div>
+                            <div class="section-title">What it does:</div>
+                            <ul>
+                                <li>WordPress core function schedules a one-time cron job</li>
+                                <li>Sets the job to run after 2 seconds delay</li>
+                                <li>Registers the mo_wcps_product_sync_cron hook</li>
+                                <li>Passes connection parameters to the cron job</li>
+                            </ul>
+                            <div class="process-detail">
+                                <h5>Process Details:</h5>
+                                <p>WordPress uses its built-in cron system to schedule the sync job. The 2-second delay ensures the current HTTP request completes before the sync starts, preventing timeout issues. The cron job will execute the mo_wcps_product_sync_cron function with the connection details.</p>
+                            </div>
+                            <div class="section-title">Hooks:</div>
+                            <p>None</p>
                             <button class="sync-button" onclick="nextOldStep(5)">Continue</button>
                         </div>
                     </div>
@@ -789,7 +926,23 @@
                                 <div class="arrow">→</div>
                                 <div class="process-box">start_sync()</div>
                             </div>
-                            <p>Initializes Default_Apps_Factory, sets up backup cron, calls start_sync_process()</p>
+                            <div class="section-title">Function:</div>
+                            <div class="function-name">start_sync()</div>
+                            <div class="section-title">What it does:</div>
+                            <ul>
+                                <li>Initializes Default_Apps_Factory to handle API connections</li>
+                                <li>Sets up backup cron monitoring for sync recovery</li>
+                                <li>Calls start_sync_process() to begin actual product sync</li>
+                                <li>Calls end_sync() to finalize the sync process</li>
+                                <li>Manages sync state and error handling</li>
+                            </ul>
+                            <div class="process-detail">
+                                <h5>Process Details:</h5>
+                                <p>The Sync Manager is the main orchestrator of the sync process. It initializes the API factory which handles different supplier APIs (Amrod, Barron, etc.), sets up backup monitoring to detect stuck syncs, and manages the entire sync lifecycle from start to completion.</p>
+                            </div>
+                            <div class="section-title">Hooks:</div>
+                            <div class="hook-name">mo_wcps_perform_action_before_sync</div>
+                            <p>Called before sync starts, allowing custom actions</p>
                             <button class="sync-button" onclick="nextOldStep(6)">Continue</button>
                         </div>
                     </div>
@@ -803,9 +956,26 @@
                             <div class="step-animation">
                                 <div class="process-box">Sync Handler</div>
                                 <div class="arrow">→</div>
+                                <div class="process-box">handle_api_sync()</div>
+                                <div class="arrow">→</div>
                                 <div class="process-box">External API</div>
                             </div>
-                            <p>Makes API call to external supplier, retrieves product data</p>
+                            <div class="section-title">Function:</div>
+                            <div class="function-name">handle_api_sync()</div>
+                            <div class="section-title">What it does:</div>
+                            <ul>
+                                <li>Sets memory and time limits for API processing</li>
+                                <li>Calls set_product_data() to fetch products from external API</li>
+                                <li>Calls filter_product_data() to apply custom filters</li>
+                                <li>Calls sync_products() to process and sync products</li>
+                                <li>Handles API authentication and error responses</li>
+                            </ul>
+                            <div class="process-detail">
+                                <h5>Process Details:</h5>
+                                <p>This is where the actual sync begins. The function makes API calls to external suppliers (like Amrod, Barron, etc.) to retrieve product data. It applies memory and time limits to prevent server overload, filters the data based on user settings, and then processes each product for WooCommerce integration.</p>
+                            </div>
+                            <div class="section-title">Hooks:</div>
+                            <p>None</p>
                             <button class="sync-button" onclick="nextOldStep(7)">Continue</button>
                         </div>
                     </div>
@@ -819,9 +989,26 @@
                             <div class="step-animation">
                                 <div class="process-box">Sync Products</div>
                                 <div class="arrow">→</div>
-                                <div class="process-box">WooCommerce</div>
+                                <div class="process-box">sync_products()</div>
                             </div>
-                            <p>Processes products, creates/updates WooCommerce products</p>
+                            <div class="section-title">Function:</div>
+                            <div class="function-name">sync_products() [on sync class]</div>
+                            <div class="section-title">What it does:</div>
+                            <ul>
+                                <li>Loops through each product retrieved from the API</li>
+                                <li>Creates product objects (Simple or Variable products)</li>
+                                <li>Calls set_fields() to map API data to WooCommerce fields</li>
+                                <li>Calls save() to create/update products in WooCommerce</li>
+                                <li>Updates analytics counters (processed, added, updated, failed)</li>
+                                <li>Applies product filters and transformations</li>
+                            </ul>
+                            <div class="process-detail">
+                                <h5>Process Details:</h5>
+                                <p>This function processes each product individually. It maps external API data to WooCommerce product fields, handles both simple and variable products, applies user-defined filters, and creates or updates products in WooCommerce. The function also tracks progress for analytics and error reporting.</p>
+                            </div>
+                            <div class="section-title">Hooks:</div>
+                            <div class="hook-name">mo_wcps_data_alteration_filter</div>
+                            <p>Called before processing products, allows data modification</p>
                             <button class="sync-button" onclick="nextOldStep(8)">Continue</button>
                         </div>
                     </div>
@@ -829,14 +1016,68 @@
                     <div class="step-container hidden" id="old-step-8">
                         <div class="step-header">
                             <span class="step-number">8</span>
+                            <h4>Product Creation/Update</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box">MO Product</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">save()</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">WooCommerce</div>
+                            </div>
+                            <div class="section-title">Function:</div>
+                            <div class="function-name">save()</div>
+                            <div class="section-title">What it does:</div>
+                            <ul>
+                                <li>Checks if product already exists in WooCommerce</li>
+                                <li>If exists: calls update_product() (if update is enabled)</li>
+                                <li>If new: calls add_product() (if add is enabled)</li>
+                                <li>Handles product images, categories, and attributes</li>
+                                <li>Returns product details (ID, status, errors)</li>
+                                <li>Manages product variations for variable products</li>
+                            </ul>
+                            <div class="process-detail">
+                                <h5>Process Details:</h5>
+                                <p>This function is responsible for the actual creation or update of products in WooCommerce. It checks existing products by SKU or external ID, handles product images, categories, attributes, and variations. The function respects user settings for add/update operations and provides detailed feedback for each product operation.</p>
+                            </div>
+                            <div class="section-title">Hooks:</div>
+                            <p>None</p>
+                            <button class="sync-button" onclick="nextOldStep(9)">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="old-step-9">
+                        <div class="step-header">
+                            <span class="step-number">9</span>
                             <h4>Sync Completion</h4>
                         </div>
                         <div class="step-content">
                             <div class="step-animation">
-                                <div class="process-box success">Sync Complete</div>
+                                <div class="process-box">Sync Manager</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">end_sync()</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box success">Completed</div>
                             </div>
-                            <p>Connection sync completed successfully!</p>
-                            <button class="sync-button reset" onclick="resetOldSync()">Start Over</button>
+                            <div class="section-title">Function:</div>
+                            <div class="function-name">end_sync(sync_end_status)</div>
+                            <div class="section-title">What it does:</div>
+                            <ul>
+                                <li>Updates final analytics with completion statistics</li>
+                                <li>Sets sync end time and calculates total duration</li>
+                                <li>Updates sync running status to 'completed'</li>
+                                <li>Handles completion/abort/pause status appropriately</li>
+                                <li>Clears scheduled crons and backup monitoring</li>
+                                <li>Logs sync completion and any errors encountered</li>
+                            </ul>
+                            <div class="process-detail">
+                                <h5>Process Details:</h5>
+                                <p>This function finalizes the sync process by updating analytics, cleaning up resources, and logging results. It provides a summary of the sync operation including products processed, time taken, and any errors. The function also ensures proper cleanup of WordPress cron jobs and backup monitoring systems.</p>
+                            </div>
+                            <div class="section-title">Hooks:</div>
+                            <p>None</p>
+                            <button class="sync-button reset" onclick="resetOldSync()">Reset Simulation</button>
                         </div>
                     </div>
                 </div>
@@ -845,42 +1086,48 @@
             <!-- New Sync Preview -->
             <div id="new-preview" class="preview-content">
                 <div class="preview-header">
-                    <h3>New Sync Flow Simulation</h3>
-                    <p>Experience the supplier-centric approach with priority-based connection management</p>
+                    <h3>New Sync Flow - Step by Step Details</h3>
+                    <p>Supplier-centric approach with priority-based connection management</p>
                 </div>
 
                 <div class="sync-simulation">
                     <div class="step-container" id="new-step-1">
                         <div class="step-header">
                             <span class="step-number">1</span>
-                            <h4>Start Supplier Sync</h4>
+                            <h4>User Initiates Supplier Sync</h4>
                         </div>
                         <div class="step-content">
-                            <p>Click the button below to start the supplier sync process. This will automatically handle all related connections.</p>
-                            <button class="sync-button" onclick="startNewSync()">Start Supplier Sync</button>
+                            <div class="step-animation">
+                                <div class="process-box">User</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">Click "Start Supplier Sync"</div>
+                            </div>
+                            <div class="section-title">Action:</div>
+                            <p>User clicks "Start Supplier Sync" button</p>
+                            <div class="section-title">Function:</div>
+                            <div class="function-name">handle_supplier_sync_action()</div>
+                            <div class="section-title">What it does:</div>
+                            <ul>
+                                <li>Checks if supplier sync is already running</li>
+                                <li>Updates supplier status to 'started' in database</li>
+                                <li>Retrieves all connections associated with the supplier</li>
+                                <li>Validates supplier configuration and permissions</li>
+                                <li>Redirects to supplier analytics page</li>
+                            </ul>
+                            <div class="process-detail">
+                                <h5>Process Details:</h5>
+                                <p>This function initiates the supplier-level sync process. Unlike the old system where each connection was synced separately, this function prepares to sync all connections under a single supplier. It validates the supplier exists and has proper configuration before proceeding.</p>
+                            </div>
+                            <div class="section-title">Hooks:</div>
+                            <p>None</p>
+                            <button class="sync-button" onclick="nextNewStep(2)">Continue</button>
                         </div>
                     </div>
 
                     <div class="step-container hidden" id="new-step-2">
                         <div class="step-header">
                             <span class="step-number">2</span>
-                            <h4>UI Handler Processes Supplier Request</h4>
-                        </div>
-                        <div class="step-content">
-                            <div class="step-animation">
-                                <div class="process-box">UI Handler</div>
-                                <div class="arrow">→</div>
-                                <div class="process-box">handle_supplier_sync_action()</div>
-                            </div>
-                            <p>UI Handler checks if supplier sync is running and gets all connections for supplier</p>
-                            <button class="sync-button" onclick="nextNewStep(3)">Continue</button>
-                        </div>
-                    </div>
-
-                    <div class="step-container hidden" id="new-step-3">
-                        <div class="step-header">
-                            <span class="step-number">3</span>
-                            <h4>Supplier Manager Initialization</h4>
+                            <h4>Supplier Manager Setup</h4>
                         </div>
                         <div class="step-content">
                             <div class="step-animation">
@@ -888,14 +1135,30 @@
                                 <div class="arrow">→</div>
                                 <div class="process-box">start_supplier_sync()</div>
                             </div>
-                            <p>Initializes supplier, gets priority connections, starts with highest priority</p>
-                            <button class="sync-button" onclick="nextNewStep(4)">Continue</button>
+                            <div class="section-title">Function:</div>
+                            <div class="function-name">start_supplier_sync()</div>
+                            <div class="section-title">What it does:</div>
+                            <ul>
+                                <li>Initializes the supplier object with configuration</li>
+                                <li>Retrieves priority-sorted connections for the supplier</li>
+                                <li>Starts with the highest priority connection first</li>
+                                <li>Sets up supplier-level analytics tracking</li>
+                                <li>Configures backup monitoring for supplier sync</li>
+                            </ul>
+                            <div class="process-detail">
+                                <h5>Process Details:</h5>
+                                <p>The Supplier Manager orchestrates the entire supplier sync process. It retrieves all connections associated with the supplier, sorts them by priority, and prepares to process them sequentially. This is the key difference from the old system - instead of managing individual connections, it manages a collection of related connections.</p>
+                            </div>
+                            <div class="section-title">Hooks:</div>
+                            <div class="hook-name">mo_wcps_perform_action_before_supplier_sync</div>
+                            <p>Called before supplier sync starts, allows custom actions</p>
+                            <button class="sync-button" onclick="nextNewStep(3)">Continue</button>
                         </div>
                     </div>
 
-                    <div class="step-container hidden" id="new-step-4">
+                    <div class="step-container hidden" id="new-step-3">
                         <div class="step-header">
-                            <span class="step-number">4</span>
+                            <span class="step-number">3</span>
                             <h4>Connection Priority Management</h4>
                         </div>
                         <div class="step-content">
@@ -904,7 +1167,54 @@
                                 <div class="arrow">→</div>
                                 <div class="process-box">get_connections_by_priority()</div>
                             </div>
-                            <p>Sorts connections by priority: [Connection1: Priority 1], [Connection2: Priority 2], [Connection3: Priority 3]</p>
+                            <div class="section-title">Function:</div>
+                            <div class="function-name">get_connections_by_priority(supplier_name)</div>
+                            <div class="section-title">What it does:</div>
+                            <ul>
+                                <li>Retrieves all connections for the specified supplier</li>
+                                <li>Sorts connections by their priority value (1 = highest)</li>
+                                <li>Returns ordered list: [Connection1: Priority 1, Connection2: Priority 2, Connection3: Priority 3]</li>
+                                <li>Validates connection status and configuration</li>
+                                <li>Filters out disabled or invalid connections</li>
+                            </ul>
+                            <div class="process-detail">
+                                <h5>Process Details:</h5>
+                                <p>This function implements the priority-based connection management system. It retrieves all connections associated with a supplier and sorts them by priority. Higher priority connections (lower numbers) are processed first. This ensures that critical connections are synced before less important ones, providing better control over the sync order.</p>
+                            </div>
+                            <div class="section-title">Hooks:</div>
+                            <p>None</p>
+                            <button class="sync-button" onclick="nextNewStep(4)">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="new-step-4">
+                        <div class="step-header">
+                            <span class="step-number">4</span>
+                            <h4>Start Connection1 (Priority 1)</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box">Connection Manager</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">start_connection_sync(connection1)</div>
+                            </div>
+                            <div class="section-title">Function:</div>
+                            <div class="function-name">start_connection_sync(connection1)</div>
+                            <div class="section-title">What it does:</div>
+                            <ul>
+                                <li>Initiates sync for the highest priority connection (Connection1)</li>
+                                <li>Sets Connection1 status to 'in_progress'</li>
+                                <li>Creates Connection1-specific analytics tracking</li>
+                                <li>Sets up Connection1-level backup monitoring</li>
+                                <li>Prepares Connection1 for API data retrieval</li>
+                            </ul>
+                            <div class="process-detail">
+                                <h5>Process Details:</h5>
+                                <p>This function starts the sync process for the first (highest priority) connection. It sets up the same infrastructure as the old system but within the context of the supplier sync. The connection will be processed completely before moving to the next priority connection, ensuring sequential processing.</p>
+                            </div>
+                            <div class="section-title">Hooks:</div>
+                            <div class="hook-name">mo_wcps_perform_action_before_connection_sync</div>
+                            <p>Called before each connection sync starts</p>
                             <button class="sync-button" onclick="nextNewStep(5)">Continue</button>
                         </div>
                     </div>
@@ -912,15 +1222,30 @@
                     <div class="step-container hidden" id="new-step-5">
                         <div class="step-header">
                             <span class="step-number">5</span>
-                            <h4>Start Connection1 (Priority 1)</h4>
+                            <h4>Connection1 Product Processing</h4>
                         </div>
                         <div class="step-content">
                             <div class="step-animation">
-                                <div class="process-box">Connection1</div>
+                                <div class="process-box">Sync Handler</div>
                                 <div class="arrow">→</div>
-                                <div class="process-box">Processing...</div>
+                                <div class="process-box">handle_api_sync(connection1)</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">External API</div>
                             </div>
-                            <p>Starting sync for highest priority connection (Connection1)</p>
+                            <div class="section-title">Function:</div>
+                            <div class="function-name">handle_api_sync(connection1)</div>
+                            <div class="section-title">What it does:</div>
+                            <ul>
+                                <li>Set memory limits</li>
+                                <li>Make API call for connection1</li>
+                                <li>Process products for connection1</li>
+                            </ul>
+                            <div class="process-detail">
+                                <h5>Process Details:</h5>
+                                <p>This function processes the first connection in the supplier sync. It sets up the necessary infrastructure for the sync process, including memory limits, API call, and product processing.</p>
+                            </div>
+                            <div class="section-title">Hooks:</div>
+                            <p>None</p>
                             <button class="sync-button" onclick="nextNewStep(6)">Continue</button>
                         </div>
                     </div>
@@ -928,17 +1253,33 @@
                     <div class="step-container hidden" id="new-step-6">
                         <div class="step-header">
                             <span class="step-number">6</span>
-                            <h4>Connection1 API Processing</h4>
+                            <h4>Connection1 Completion</h4>
                         </div>
                         <div class="step-content">
                             <div class="step-animation">
                                 <div class="process-box">Connection1</div>
                                 <div class="arrow">→</div>
-                                <div class="process-box">API Call</div>
+                                <div class="process-box success">Completed</div>
                                 <div class="arrow">→</div>
-                                <div class="process-box">Products</div>
+                                <div class="process-box">Supplier Manager</div>
                             </div>
-                            <p>Making API call for Connection1, processing products</p>
+                            <div class="section-title">Function:</div>
+                            <div class="function-name">connection1_completed()</div>
+                            <div class="section-title">What it does:</div>
+                            <ul>
+                                <li>Marks Connection1 as completed in the database</li>
+                                <li>Updates Connection1 analytics with final statistics</li>
+                                <li>Notifies Supplier Manager to proceed to next connection</li>
+                                <li>Cleans up Connection1-specific resources</li>
+                                <li>Triggers transition to next priority connection</li>
+                            </ul>
+                            <div class="process-detail">
+                                <h5>Process Details:</h5>
+                                <p>This function finalizes the sync for Connection1 and prepares the system to move to the next priority connection. It updates analytics, cleans up resources, and signals the Supplier Manager that it's time to process the next connection in the priority queue.</p>
+                            </div>
+                            <div class="section-title">Hooks:</div>
+                            <div class="hook-name">mo_wcps_connection_completed</div>
+                            <p>Called when each connection sync completes</p>
                             <button class="sync-button" onclick="nextNewStep(7)">Continue</button>
                         </div>
                     </div>
@@ -946,13 +1287,31 @@
                     <div class="step-container hidden" id="new-step-7">
                         <div class="step-header">
                             <span class="step-number">7</span>
-                            <h4>Connection1 Completed</h4>
+                            <h4>Start Connection2 (Priority 2)</h4>
                         </div>
                         <div class="step-content">
                             <div class="step-animation">
-                                <div class="process-box success">Connection1 Complete</div>
+                                <div class="process-box">Connection Manager</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">start_connection_sync(connection2)</div>
                             </div>
-                            <p>Connection1 sync completed successfully!</p>
+                            <div class="section-title">Function:</div>
+                            <div class="function-name">start_connection_sync(connection2)</div>
+                            <div class="section-title">What it does:</div>
+                            <ul>
+                                <li>Initiates sync for the second priority connection (Connection2)</li>
+                                <li>Sets Connection2 status to 'in_progress'</li>
+                                <li>Creates Connection2-specific analytics tracking</li>
+                                <li>Sets up Connection2-level backup monitoring</li>
+                                <li>Prepares Connection2 for API data retrieval</li>
+                            </ul>
+                            <div class="process-detail">
+                                <h5>Process Details:</h5>
+                                <p>After Connection1 completes, the system automatically moves to Connection2. This function sets up the same infrastructure as Connection1 but for the second priority connection. The sequential processing ensures that connections are synced in the correct priority order.</p>
+                            </div>
+                            <div class="section-title">Hooks:</div>
+                            <div class="hook-name">mo_wcps_perform_action_before_connection_sync</div>
+                            <p>Called before each connection sync starts</p>
                             <button class="sync-button" onclick="nextNewStep(8)">Continue</button>
                         </div>
                     </div>
@@ -960,15 +1319,34 @@
                     <div class="step-container hidden" id="new-step-8">
                         <div class="step-header">
                             <span class="step-number">8</span>
-                            <h4>Start Connection2 (Priority 2)</h4>
+                            <h4>Connection2 Processing & Completion</h4>
                         </div>
                         <div class="step-content">
                             <div class="step-animation">
                                 <div class="process-box">Connection2</div>
                                 <div class="arrow">→</div>
-                                <div class="process-box">Processing...</div>
+                                <div class="process-box">API Processing</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box success">Completed</div>
                             </div>
-                            <p>Automatically starting next priority connection (Connection2)</p>
+                            <div class="section-title">Process:</div>
+                            <p>Same as Connection1 but for Connection2</p>
+                            <div class="section-title">Functions:</div>
+                            <ul>
+                                <li>handle_api_sync(connection2) - Processes products for Connection2</li>
+                                <li>connection2_completed() - Finalizes Connection2 sync</li>
+                            </ul>
+                            <div class="process-detail">
+                                <h5>Process Details:</h5>
+                                <p>Connection2 goes through the same sync process as Connection1: API data retrieval, product processing, WooCommerce integration, and completion. The system maintains the same quality and consistency across all connections while respecting the priority order.</p>
+                            </div>
+                            <div class="section-title">Hooks:</div>
+                            <div class="hook-name">mo_wcps_perform_action_before_connection_sync</div>
+                            <p>Called before Connection2 sync starts</p>
+                            <div class="hook-name">mo_wcps_data_alteration_filter</div>
+                            <p>Called during Connection2 product processing</p>
+                            <div class="hook-name">mo_wcps_connection_completed</div>
+                            <p>Called when Connection2 sync completes</p>
                             <button class="sync-button" onclick="nextNewStep(9)">Continue</button>
                         </div>
                     </div>
@@ -976,17 +1354,31 @@
                     <div class="step-container hidden" id="new-step-9">
                         <div class="step-header">
                             <span class="step-number">9</span>
-                            <h4>Connection2 API Processing</h4>
+                            <h4>Start Connection3 (Priority 3)</h4>
                         </div>
                         <div class="step-content">
                             <div class="step-animation">
-                                <div class="process-box">Connection2</div>
+                                <div class="process-box">Connection Manager</div>
                                 <div class="arrow">→</div>
-                                <div class="process-box">API Call</div>
-                                <div class="arrow">→</div>
-                                <div class="process-box">Products</div>
+                                <div class="process-box">start_connection_sync(connection3)</div>
                             </div>
-                            <p>Making API call for Connection2, processing products</p>
+                            <div class="section-title">Function:</div>
+                            <div class="function-name">start_connection_sync(connection3)</div>
+                            <div class="section-title">What it does:</div>
+                            <ul>
+                                <li>Initiates sync for the final priority connection (Connection3)</li>
+                                <li>Sets Connection3 status to 'in_progress'</li>
+                                <li>Creates Connection3-specific analytics tracking</li>
+                                <li>Sets up Connection3-level backup monitoring</li>
+                                <li>Prepares Connection3 for API data retrieval</li>
+                            </ul>
+                            <div class="process-detail">
+                                <h5>Process Details:</h5>
+                                <p>After Connection2 completes, the system automatically moves to Connection3, the final connection in the priority queue. This function sets up the same infrastructure for the last connection, ensuring all connections are processed in the correct order.</p>
+                            </div>
+                            <div class="section-title">Hooks:</div>
+                            <div class="hook-name">mo_wcps_perform_action_before_connection_sync</div>
+                            <p>Called before Connection3 sync starts</p>
                             <button class="sync-button" onclick="nextNewStep(10)">Continue</button>
                         </div>
                     </div>
@@ -994,13 +1386,34 @@
                     <div class="step-container hidden" id="new-step-10">
                         <div class="step-header">
                             <span class="step-number">10</span>
-                            <h4>Connection2 Completed</h4>
+                            <h4>Connection3 Processing & Completion</h4>
                         </div>
                         <div class="step-content">
                             <div class="step-animation">
-                                <div class="process-box success">Connection2 Complete</div>
+                                <div class="process-box">Connection3</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">API Processing</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box success">Completed</div>
                             </div>
-                            <p>Connection2 sync completed successfully!</p>
+                            <div class="section-title">Process:</div>
+                            <p>Same as previous connections but for Connection3</p>
+                            <div class="section-title">Functions:</div>
+                            <ul>
+                                <li>handle_api_sync(connection3) - Processes products for Connection3</li>
+                                <li>connection3_completed() - Finalizes Connection3 sync</li>
+                            </ul>
+                            <div class="process-detail">
+                                <h5>Process Details:</h5>
+                                <p>Connection3 goes through the same sync process as the previous connections: API data retrieval, product processing, WooCommerce integration, and completion. This is the final connection in the priority queue, and once it completes, the entire supplier sync will be finished.</p>
+                            </div>
+                            <div class="section-title">Hooks:</div>
+                            <div class="hook-name">mo_wcps_perform_action_before_connection_sync</div>
+                            <p>Called before Connection3 sync starts</p>
+                            <div class="hook-name">mo_wcps_data_alteration_filter</div>
+                            <p>Called during Connection3 product processing</p>
+                            <div class="hook-name">mo_wcps_connection_completed</div>
+                            <p>Called when Connection3 sync completes</p>
                             <button class="sync-button" onclick="nextNewStep(11)">Continue</button>
                         </div>
                     </div>
@@ -1008,62 +1421,35 @@
                     <div class="step-container hidden" id="new-step-11">
                         <div class="step-header">
                             <span class="step-number">11</span>
-                            <h4>Start Connection3 (Priority 3)</h4>
+                            <h4>Supplier Sync Completion</h4>
                         </div>
                         <div class="step-content">
                             <div class="step-animation">
-                                <div class="process-box">Connection3</div>
+                                <div class="process-box">Supplier Manager</div>
                                 <div class="arrow">→</div>
-                                <div class="process-box">Processing...</div>
-                            </div>
-                            <p>Automatically starting final priority connection (Connection3)</p>
-                            <button class="sync-button" onclick="nextNewStep(12)">Continue</button>
-                        </div>
-                    </div>
-
-                    <div class="step-container hidden" id="new-step-12">
-                        <div class="step-header">
-                            <span class="step-number">12</span>
-                            <h4>Connection3 API Processing</h4>
-                        </div>
-                        <div class="step-content">
-                            <div class="step-animation">
-                                <div class="process-box">Connection3</div>
+                                <div class="process-box">end_supplier_sync()</div>
                                 <div class="arrow">→</div>
-                                <div class="process-box">API Call</div>
-                                <div class="arrow">→</div>
-                                <div class="process-box">Products</div>
+                                <div class="process-box success">All Connections Completed</div>
                             </div>
-                            <p>Making API call for Connection3, processing products</p>
-                            <button class="sync-button" onclick="nextNewStep(13)">Continue</button>
-                        </div>
-                    </div>
-
-                    <div class="step-container hidden" id="new-step-13">
-                        <div class="step-header">
-                            <span class="step-number">13</span>
-                            <h4>All Connections Completed</h4>
-                        </div>
-                        <div class="step-content">
-                            <div class="step-animation">
-                                <div class="process-box success">All Connections Complete</div>
+                            <div class="section-title">Function:</div>
+                            <div class="function-name">end_supplier_sync()</div>
+                            <div class="section-title">What it does:</div>
+                            <ul>
+                                <li>Confirms all connections have completed successfully</li>
+                                <li>Updates supplier analytics with final statistics</li>
+                                <li>Marks supplier sync as completed in database</li>
+                                <li>Cleans up supplier-level resources and monitoring</li>
+                                <li>Logs final supplier sync results and any errors</li>
+                                <li>Triggers supplier completion notifications</li>
+                            </ul>
+                            <div class="process-detail">
+                                <h5>Process Details:</h5>
+                                <p>This function finalizes the entire supplier sync process after all connections have completed. It aggregates analytics from all connections, updates the supplier status, cleans up resources, and provides a comprehensive summary of the entire supplier sync operation.</p>
                             </div>
-                            <p>All connections (Connection1, Connection2, Connection3) completed successfully!</p>
-                            <button class="sync-button" onclick="nextNewStep(14)">Continue</button>
-                        </div>
-                    </div>
-
-                    <div class="step-container hidden" id="new-step-14">
-                        <div class="step-header">
-                            <span class="step-number">14</span>
-                            <h4>Supplier Sync Complete</h4>
-                        </div>
-                        <div class="step-content">
-                            <div class="step-animation">
-                                <div class="process-box success">Supplier Sync Complete</div>
-                            </div>
-                            <p>Supplier sync completed successfully! All connections processed in priority order.</p>
-                            <button class="sync-button reset" onclick="resetNewSync()">Start Over</button>
+                            <div class="section-title">Hooks:</div>
+                            <div class="hook-name">mo_wcps_supplier_sync_completed</div>
+                            <p>Called when all connections complete, allows custom actions</p>
+                            <button class="sync-button reset" onclick="resetNewSync()">Reset Simulation</button>
                         </div>
                     </div>
                 </div>
@@ -1140,6 +1526,7 @@
     </div>
 
     <script>
+        // Tab switching functionality
         function showTab(tabName) {
             // Hide all tab contents
             const tabContents = document.querySelectorAll('.tab-content');
@@ -1160,17 +1547,7 @@
             event.target.classList.add('active');
         }
 
-        // Add smooth scrolling for better UX
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Preview Tab Functions
+        // Preview sub-tab switching
         function showPreviewTab(tabName) {
             // Hide all preview contents
             const previewContents = document.querySelectorAll('.preview-content');
@@ -1191,7 +1568,7 @@
             event.target.classList.add('active');
         }
 
-        // Old Sync Functions
+        // Old Sync Flow Simulation Functions
         function startOldSync() {
             document.getElementById('old-step-1').classList.add('completed');
             document.getElementById('old-step-2').classList.remove('hidden');
@@ -1200,28 +1577,26 @@
 
         function nextOldStep(stepNumber) {
             // Mark current step as completed
-            const currentStep = event.target.closest('.step-container');
-            currentStep.classList.add('completed');
+            document.getElementById(`old-step-${stepNumber - 1}`).classList.add('completed');
             
-            // Show next step (don't hide current)
-            const nextStep = document.getElementById(`old-step-${stepNumber}`);
-            nextStep.classList.remove('hidden');
-            nextStep.scrollIntoView({ behavior: 'smooth' });
+            // Show next step
+            document.getElementById(`old-step-${stepNumber}`).classList.remove('hidden');
+            document.getElementById(`old-step-${stepNumber}`).scrollIntoView({ behavior: 'smooth' });
         }
 
         function resetOldSync() {
-            // Hide all steps except first and remove completed class
-            for (let i = 2; i <= 8; i++) {
-                const step = document.getElementById(`old-step-${i}`);
-                step.classList.add('hidden');
-                step.classList.remove('completed');
+            // Hide all steps except first
+            for (let i = 2; i <= 9; i++) {
+                document.getElementById(`old-step-${i}`).classList.add('hidden');
+                document.getElementById(`old-step-${i}`).classList.remove('completed');
             }
+            
             // Reset first step
             document.getElementById('old-step-1').classList.remove('completed');
             document.getElementById('old-step-1').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // New Sync Functions
+        // New Sync Flow Simulation Functions
         function startNewSync() {
             document.getElementById('new-step-1').classList.add('completed');
             document.getElementById('new-step-2').classList.remove('hidden');
@@ -1230,22 +1605,20 @@
 
         function nextNewStep(stepNumber) {
             // Mark current step as completed
-            const currentStep = event.target.closest('.step-container');
-            currentStep.classList.add('completed');
+            document.getElementById(`new-step-${stepNumber - 1}`).classList.add('completed');
             
-            // Show next step (don't hide current)
-            const nextStep = document.getElementById(`new-step-${stepNumber}`);
-            nextStep.classList.remove('hidden');
-            nextStep.scrollIntoView({ behavior: 'smooth' });
+            // Show next step
+            document.getElementById(`new-step-${stepNumber}`).classList.remove('hidden');
+            document.getElementById(`new-step-${stepNumber}`).scrollIntoView({ behavior: 'smooth' });
         }
 
         function resetNewSync() {
-            // Hide all steps except first and remove completed class
-            for (let i = 2; i <= 14; i++) {
-                const step = document.getElementById(`new-step-${i}`);
-                step.classList.add('hidden');
-                step.classList.remove('completed');
+            // Hide all steps except first
+            for (let i = 2; i <= 11; i++) {
+                document.getElementById(`new-step-${i}`).classList.add('hidden');
+                document.getElementById(`new-step-${i}`).classList.remove('completed');
             }
+            
             // Reset first step
             document.getElementById('new-step-1').classList.remove('completed');
             document.getElementById('new-step-1').scrollIntoView({ behavior: 'smooth' });
