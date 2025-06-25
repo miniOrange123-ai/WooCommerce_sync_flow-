@@ -250,6 +250,239 @@
                 padding: 20px;
             }
         }
+
+        /* Preview Tab Styles */
+        .preview-sub-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .preview-sub-tab {
+            flex: 1;
+            padding: 15px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            background: transparent;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #6c757d;
+        }
+
+        .preview-sub-tab:hover {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .preview-sub-tab.active {
+            background: #007bff;
+            color: white;
+        }
+
+        .preview-content {
+            display: none;
+        }
+
+        .preview-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .preview-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .preview-header h3 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .preview-header p {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+
+        .sync-simulation {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .step-container {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .step-container:hover {
+            border-color: #007bff;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.1);
+        }
+
+        .step-container.hidden {
+            display: none;
+        }
+
+        /* Connecting line between steps */
+        .step-container:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 20px;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            z-index: 1;
+        }
+
+        /* Arrow at the end of connecting line */
+        .step-container:not(:last-child)::before {
+            content: '▼';
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #007bff;
+            font-size: 12px;
+            z-index: 2;
+        }
+
+        /* Hide connecting line for last step */
+        .step-container:last-child::after,
+        .step-container:last-child::before {
+            display: none;
+        }
+
+        /* Progress indicator */
+        .step-container.completed {
+            border-color: #28a745;
+            background: linear-gradient(135deg, rgba(40, 167, 69, 0.05) 0%, rgba(32, 201, 151, 0.05) 100%);
+        }
+
+        .step-container.completed .step-header {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .step-header {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .step-number {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .step-header h4 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .step-content {
+            padding: 25px;
+        }
+
+        .step-content p {
+            margin-bottom: 20px;
+            color: #495057;
+            line-height: 1.6;
+        }
+
+        .step-animation {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .process-box {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-weight: 500;
+            color: #495057;
+            text-align: center;
+            min-width: 120px;
+            transition: all 0.3s ease;
+        }
+
+        .process-box.success {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .arrow {
+            font-size: 1.5rem;
+            color: #007bff;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+
+        .sync-button {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .sync-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+        }
+
+        .sync-button.reset {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+        }
+
+        .sync-button.reset:hover {
+            box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .preview-sub-tabs {
+                flex-direction: column;
+            }
+            
+            .step-animation {
+                flex-direction: column;
+            }
+            
+            .arrow {
+                transform: rotate(90deg);
+                margin: 10px 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -266,6 +499,7 @@
             <button class="tab" onclick="showTab('new-flow')">New Sync Flow</button>
             <button class="tab" onclick="showTab('old-backup')">Old Backup Flow</button>
             <button class="tab" onclick="showTab('new-backup')">New Backup Flow</button>
+            <button class="tab" onclick="showTab('preview')">Interactive Preview</button>
             <button class="tab" onclick="showTab('comparison')">Key Differences</button>
         </div>
 
@@ -464,6 +698,378 @@
             </div>
         </div>
 
+        <!-- Preview Tab -->
+        <div id="preview" class="tab-content">
+            <div class="content-header">
+                <h2>Interactive Sync Flow Preview</h2>
+                <p>Experience the sync process step-by-step with interactive simulation</p>
+            </div>
+
+            <!-- Preview Sub-tabs -->
+            <div class="preview-sub-tabs">
+                <button class="preview-sub-tab active" onclick="showPreviewTab('old-preview')">Old Sync Flow</button>
+                <button class="preview-sub-tab" onclick="showPreviewTab('new-preview')">New Sync Flow</button>
+            </div>
+
+            <!-- Old Sync Preview -->
+            <div id="old-preview" class="preview-content active">
+                <div class="preview-header">
+                    <h3>Old Sync Flow Simulation</h3>
+                    <p>Experience the connection-centric approach step by step</p>
+                </div>
+
+                <div class="sync-simulation">
+                    <div class="step-container" id="old-step-1">
+                        <div class="step-header">
+                            <span class="step-number">1</span>
+                            <h4>Start Connection Sync</h4>
+                        </div>
+                        <div class="step-content">
+                            <p>Click the button below to start the sync process for a single connection.</p>
+                            <button class="sync-button" onclick="startOldSync()">Start Sync</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="old-step-2">
+                        <div class="step-header">
+                            <span class="step-number">2</span>
+                            <h4>UI Handler Processes Request</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box">UI Handler</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">handle_action('mowcpsstartsync')</div>
+                            </div>
+                            <p>UI Handler checks if sync is running and updates status to 'started'</p>
+                            <button class="sync-button" onclick="nextOldStep(3)">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="old-step-3">
+                        <div class="step-header">
+                            <span class="step-number">3</span>
+                            <h4>Cron Manager Setup</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box">Cron Manager</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">enqueue_product_sync()</div>
+                            </div>
+                            <p>Creates Sync_Analytics, schedules cron job, sets status 'Sync in queue'</p>
+                            <button class="sync-button" onclick="nextOldStep(4)">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="old-step-4">
+                        <div class="step-header">
+                            <span class="step-number">4</span>
+                            <h4>WordPress Cron Scheduling</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box">WordPress</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">wp_schedule_single_event()</div>
+                            </div>
+                            <p>Schedules cron job to run in 2 seconds</p>
+                            <button class="sync-button" onclick="nextOldStep(5)">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="old-step-5">
+                        <div class="step-header">
+                            <span class="step-number">5</span>
+                            <h4>Sync Manager Initialization</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box">Sync Manager</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">start_sync()</div>
+                            </div>
+                            <p>Initializes Default_Apps_Factory, sets up backup cron, calls start_sync_process()</p>
+                            <button class="sync-button" onclick="nextOldStep(6)">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="old-step-6">
+                        <div class="step-header">
+                            <span class="step-number">6</span>
+                            <h4>API Data Retrieval</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box">Sync Handler</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">External API</div>
+                            </div>
+                            <p>Makes API call to external supplier, retrieves product data</p>
+                            <button class="sync-button" onclick="nextOldStep(7)">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="old-step-7">
+                        <div class="step-header">
+                            <span class="step-number">7</span>
+                            <h4>Product Processing</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box">Sync Products</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">WooCommerce</div>
+                            </div>
+                            <p>Processes products, creates/updates WooCommerce products</p>
+                            <button class="sync-button" onclick="nextOldStep(8)">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="old-step-8">
+                        <div class="step-header">
+                            <span class="step-number">8</span>
+                            <h4>Sync Completion</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box success">Sync Complete</div>
+                            </div>
+                            <p>Connection sync completed successfully!</p>
+                            <button class="sync-button reset" onclick="resetOldSync()">Start Over</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Sync Preview -->
+            <div id="new-preview" class="preview-content">
+                <div class="preview-header">
+                    <h3>New Sync Flow Simulation</h3>
+                    <p>Experience the supplier-centric approach with priority-based connection management</p>
+                </div>
+
+                <div class="sync-simulation">
+                    <div class="step-container" id="new-step-1">
+                        <div class="step-header">
+                            <span class="step-number">1</span>
+                            <h4>Start Supplier Sync</h4>
+                        </div>
+                        <div class="step-content">
+                            <p>Click the button below to start the supplier sync process. This will automatically handle all related connections.</p>
+                            <button class="sync-button" onclick="startNewSync()">Start Supplier Sync</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="new-step-2">
+                        <div class="step-header">
+                            <span class="step-number">2</span>
+                            <h4>UI Handler Processes Supplier Request</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box">UI Handler</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">handle_supplier_sync_action()</div>
+                            </div>
+                            <p>UI Handler checks if supplier sync is running and gets all connections for supplier</p>
+                            <button class="sync-button" onclick="nextNewStep(3)">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="new-step-3">
+                        <div class="step-header">
+                            <span class="step-number">3</span>
+                            <h4>Supplier Manager Initialization</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box">Supplier Manager</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">start_supplier_sync()</div>
+                            </div>
+                            <p>Initializes supplier, gets priority connections, starts with highest priority</p>
+                            <button class="sync-button" onclick="nextNewStep(4)">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="new-step-4">
+                        <div class="step-header">
+                            <span class="step-number">4</span>
+                            <h4>Connection Priority Management</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box">Connection Manager</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">get_connections_by_priority()</div>
+                            </div>
+                            <p>Sorts connections by priority: [Connection1: Priority 1], [Connection2: Priority 2], [Connection3: Priority 3]</p>
+                            <button class="sync-button" onclick="nextNewStep(5)">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="new-step-5">
+                        <div class="step-header">
+                            <span class="step-number">5</span>
+                            <h4>Start Connection1 (Priority 1)</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box">Connection1</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">Processing...</div>
+                            </div>
+                            <p>Starting sync for highest priority connection (Connection1)</p>
+                            <button class="sync-button" onclick="nextNewStep(6)">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="new-step-6">
+                        <div class="step-header">
+                            <span class="step-number">6</span>
+                            <h4>Connection1 API Processing</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box">Connection1</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">API Call</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">Products</div>
+                            </div>
+                            <p>Making API call for Connection1, processing products</p>
+                            <button class="sync-button" onclick="nextNewStep(7)">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="new-step-7">
+                        <div class="step-header">
+                            <span class="step-number">7</span>
+                            <h4>Connection1 Completed</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box success">Connection1 Complete</div>
+                            </div>
+                            <p>Connection1 sync completed successfully!</p>
+                            <button class="sync-button" onclick="nextNewStep(8)">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="new-step-8">
+                        <div class="step-header">
+                            <span class="step-number">8</span>
+                            <h4>Start Connection2 (Priority 2)</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box">Connection2</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">Processing...</div>
+                            </div>
+                            <p>Automatically starting next priority connection (Connection2)</p>
+                            <button class="sync-button" onclick="nextNewStep(9)">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="new-step-9">
+                        <div class="step-header">
+                            <span class="step-number">9</span>
+                            <h4>Connection2 API Processing</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box">Connection2</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">API Call</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">Products</div>
+                            </div>
+                            <p>Making API call for Connection2, processing products</p>
+                            <button class="sync-button" onclick="nextNewStep(10)">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="new-step-10">
+                        <div class="step-header">
+                            <span class="step-number">10</span>
+                            <h4>Connection2 Completed</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box success">Connection2 Complete</div>
+                            </div>
+                            <p>Connection2 sync completed successfully!</p>
+                            <button class="sync-button" onclick="nextNewStep(11)">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="new-step-11">
+                        <div class="step-header">
+                            <span class="step-number">11</span>
+                            <h4>Start Connection3 (Priority 3)</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box">Connection3</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">Processing...</div>
+                            </div>
+                            <p>Automatically starting final priority connection (Connection3)</p>
+                            <button class="sync-button" onclick="nextNewStep(12)">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="new-step-12">
+                        <div class="step-header">
+                            <span class="step-number">12</span>
+                            <h4>Connection3 API Processing</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box">Connection3</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">API Call</div>
+                                <div class="arrow">→</div>
+                                <div class="process-box">Products</div>
+                            </div>
+                            <p>Making API call for Connection3, processing products</p>
+                            <button class="sync-button" onclick="nextNewStep(13)">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="new-step-13">
+                        <div class="step-header">
+                            <span class="step-number">13</span>
+                            <h4>All Connections Completed</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box success">All Connections Complete</div>
+                            </div>
+                            <p>All connections (Connection1, Connection2, Connection3) completed successfully!</p>
+                            <button class="sync-button" onclick="nextNewStep(14)">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="step-container hidden" id="new-step-14">
+                        <div class="step-header">
+                            <span class="step-number">14</span>
+                            <h4>Supplier Sync Complete</h4>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-animation">
+                                <div class="process-box success">Supplier Sync Complete</div>
+                            </div>
+                            <p>Supplier sync completed successfully! All connections processed in priority order.</p>
+                            <button class="sync-button reset" onclick="resetNewSync()">Start Over</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Comparison Tab -->
         <div id="comparison" class="tab-content">
             <div class="content-header">
@@ -563,6 +1169,87 @@
                 });
             });
         });
+
+        // Preview Tab Functions
+        function showPreviewTab(tabName) {
+            // Hide all preview contents
+            const previewContents = document.querySelectorAll('.preview-content');
+            previewContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all preview sub-tabs
+            const previewSubTabs = document.querySelectorAll('.preview-sub-tab');
+            previewSubTabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected preview content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked preview sub-tab
+            event.target.classList.add('active');
+        }
+
+        // Old Sync Functions
+        function startOldSync() {
+            document.getElementById('old-step-1').classList.add('completed');
+            document.getElementById('old-step-2').classList.remove('hidden');
+            document.getElementById('old-step-2').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function nextOldStep(stepNumber) {
+            // Mark current step as completed
+            const currentStep = event.target.closest('.step-container');
+            currentStep.classList.add('completed');
+            
+            // Show next step (don't hide current)
+            const nextStep = document.getElementById(`old-step-${stepNumber}`);
+            nextStep.classList.remove('hidden');
+            nextStep.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetOldSync() {
+            // Hide all steps except first and remove completed class
+            for (let i = 2; i <= 8; i++) {
+                const step = document.getElementById(`old-step-${i}`);
+                step.classList.add('hidden');
+                step.classList.remove('completed');
+            }
+            // Reset first step
+            document.getElementById('old-step-1').classList.remove('completed');
+            document.getElementById('old-step-1').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // New Sync Functions
+        function startNewSync() {
+            document.getElementById('new-step-1').classList.add('completed');
+            document.getElementById('new-step-2').classList.remove('hidden');
+            document.getElementById('new-step-2').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function nextNewStep(stepNumber) {
+            // Mark current step as completed
+            const currentStep = event.target.closest('.step-container');
+            currentStep.classList.add('completed');
+            
+            // Show next step (don't hide current)
+            const nextStep = document.getElementById(`new-step-${stepNumber}`);
+            nextStep.classList.remove('hidden');
+            nextStep.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetNewSync() {
+            // Hide all steps except first and remove completed class
+            for (let i = 2; i <= 14; i++) {
+                const step = document.getElementById(`new-step-${i}`);
+                step.classList.add('hidden');
+                step.classList.remove('completed');
+            }
+            // Reset first step
+            document.getElementById('new-step-1').classList.remove('completed');
+            document.getElementById('new-step-1').scrollIntoView({ behavior: 'smooth' });
+        }
     </script>
 </body>
 </html> 
